@@ -14,6 +14,7 @@ export const typeormConfig = (): TypeOrmModuleAsyncOptions => ({
       username: configService.get<string>('DB_USER'),
       password: configService.get<string>('DB_PASS'),
       database: configService.get<string>('DB_NAME'),
+      entities: [__dirname + '/../common/entities/*.entity.{ts,js}'],
       autoLoadEntities: true,
       synchronize: configService.get<string>('NODE_ENV') !== 'production',
       logging: configService.get<string>('NODE_ENV') === 'development',
