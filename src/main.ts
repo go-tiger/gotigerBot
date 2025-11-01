@@ -5,6 +5,7 @@ import { setupSwagger } from './configs/swagger.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableShutdownHooks(['SIGINT', 'SIGTERM']);
   const configService = app.get(ConfigService);
   const port = configService.get<number>('PORT') ?? 3000;
   setupSwagger(app);
