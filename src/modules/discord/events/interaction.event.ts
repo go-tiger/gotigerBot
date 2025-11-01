@@ -18,7 +18,14 @@ export class InteractionEvent {
       const id = interaction.customId;
 
       if (id === 'verify_game_minecraft') {
-        await interaction.reply('🔗 마인크래프트 계정 연동 링크를 생성 중입니다...');
+        const discordId = interaction.user.id;
+        const baseUrl = process.env.API_BASE_URL;
+        const authUrl = `${baseUrl}/auth/microsoft/login?state=${discordId}`;
+
+        await interaction.reply({
+          content: `🔗 [마이크로소프트 계정 인증하기](${authUrl})`,
+          ephemeral: true,
+        });
       }
 
       if (id === 'verify_platform_chzzk') {
