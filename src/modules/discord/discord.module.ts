@@ -7,5 +7,6 @@ import { VerifyCommandHandler } from './commands/verify.handler';
 @Module({
   imports: [ConfigModule],
   providers: [DiscordService, InteractionEvent, VerifyCommandHandler],
+  exports: [DiscordService],
 })
 export class DiscordModule {}

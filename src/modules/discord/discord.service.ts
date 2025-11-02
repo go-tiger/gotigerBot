@@ -19,6 +19,7 @@ export class DiscordService implements OnModuleInit {
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.DirectMessages,
       ],
       partials: [Partials.Channel],
     });
@@ -50,6 +51,20 @@ export class DiscordService implements OnModuleInit {
     this.client.on('interactionCreate', async (interaction) => {
       await this.interactionEvent.handle(interaction);
     });
+  }
+
+  async sendDM(discordId: string, message: string) {
+    try {
+      const user = await this.client.users.fetch(discordId);
+      if (!user) {
+        this.logger.warn(`⚠️ 유저(${discordId})를 찾을 수 없습니다.`);
+        return;
+      }
+      await user.send(message);
+      this.logger.log(`📨 DM 전송 완료 → ${user.tag}`);
+    } catch (err) {
+      this.logger.error(`❌ DM 전송 실패 → ${discordId}`, err);
+    }
   }
 
   async onApplicationShutdown(signal?: string) {

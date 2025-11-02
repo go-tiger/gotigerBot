@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import * as querystring from 'querystring';
+import { DiscordService } from 'src/modules/discord/discord.service';
 
 @Injectable()
 export class MicrosoftService {
+  constructor(private readonly discordService: DiscordService) {}
+
   private clientId = process.env.MICROSOFT_CLIENT_ID!;
   private redirectUri = process.env.MICROSOFT_REDIRECT_URI!;
 
@@ -75,6 +78,8 @@ export class MicrosoftService {
       const profile = await axios.get('https://api.minecraftservices.com/minecraft/profile', {
         headers: { Authorization: `Bearer ${mcAccessToken}` },
       });
+
+      await this.discordService.sendDM(state, `✅ 인증이 완료되었습니다!\nMinecraft 닉네임: **${profile.data.name}**`);
 
       return {
         discordId: state,
