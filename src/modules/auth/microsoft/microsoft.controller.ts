@@ -13,7 +13,13 @@ export class MicrosoftController {
   }
 
   @Get('callback')
-  async callback(@Query('code') code: string, @Query('state') state: string) {
-    return await this.microsoftService.handleCallback(code, state);
+  async callback(@Query('code') code: string, @Query('state') state: string, @Res() res: Response) {
+    try {
+      const result = await this.microsoftService.handleCallback(code, state);
+      const nickname = result.profile.name;
+      return res.redirect(`/auth-success.html?nickname=${encodeURIComponent(nickname)}`);
+    } catch (e) {
+      return res.status(500).send('인증 중 오류가 발생했습니다.');
+    }
   }
 }

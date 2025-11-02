@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>인증 완료</title>
+    <style>
+      body {
+        background-color: #121212;
+        color: #fff;
+        font-family: Pretendard, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .card {
+        background: #1e1e1e;
+        padding: 30px 60px;
+        border-radius: 16px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        text-align: center;
+      }
+      .card h1 {
+        color: #4caf50;
+        font-size: 28px;
+      }
+      .card p {
+        color: #bbb;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>🎉 인증이 완료되었습니다!</h1>
+      <p>이제 디스코드에서 인증을 마무리해주세요.</p>
+      <p id="nickname"></p>
+    </div>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const nickname = params.get('nickname');
+      if (nickname) {
+        document.getElementById('nickname').textContent = `마인크래프트 닉네임: ${nickname}`;
+      }
+    </script>
+  </body>
+</html>
